@@ -43,7 +43,11 @@
     // Very requires an email and traits. Check for both separately, but do
     // traits first because otherwise the userId will be cached.
     test('pushes "users" on identify', function () {
-        var spy = sinon.spy(window._veroq, 'push');
+
+        // Use cloneArgs to check against clone of passed in args.
+        // This library modifies the passed in array, so can't check reference.
+        var cloneArgs = true;
+        var spy = sinon.spy(window._veroq, 'push', cloneArgs);
         analytics.identify(traits);
         expect(spy.called).to.be(false);
 

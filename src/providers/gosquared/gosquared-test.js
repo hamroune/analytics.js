@@ -62,17 +62,19 @@
     // -----
 
     test('pushes "TrackEvent" on track', function () {
-        var spy = sinon.spy(window.GoSquared.q, 'push');
+        // Use cloneArgs to check against clone of passed in args.
+        var cloneArgs = true;
+        var spy = sinon.spy(window.GoSquared.q, 'push', cloneArgs);
         analytics.track(event);
         // GoSquared adds the event name to the properties hash.
         var augmentedProperties = { gs_evt_name: event };
-        expect(spy.calledWith([event, sinon.match(augmentedProperties)])).to.be(true);
+        expect(spy.calledWith(['TrackEvent', event, sinon.match(augmentedProperties)])).to.be(true);
 
         spy.reset();
         analytics.track(event, properties);
         // GoSquared adds the event name to the properties hash.
         augmentedProperties = _.extend({}, properties, { gs_evt_name: event });
-        expect(spy.calledWith([event, sinon.match(augmentedProperties)])).to.be(true);
+        expect(spy.calledWith(['TrackEvent', event, sinon.match(augmentedProperties)])).to.be(true);
 
         spy.restore();
     });
@@ -82,17 +84,17 @@
     // --------
 
     test('calls "TrackView" on pageview', function () {
-        var spy = sinon.spy(window.GoSquared.q, 'push');
-        spy.withArgs(['TrackView']);
+        // Use cloneArgs to check against clone of passed in args.
+        var cloneArgs = true;
+        var spy = sinon.spy(window.GoSquared.q, 'push', cloneArgs);
 
         analytics.pageview();
-        expect(spy.called).to.be(true);
+        expect(spy.calledWith(['TrackView'])).to.be(true);
 
         spy.reset();
-        spy.withArgs(['TrackView', '/url']);
 
         analytics.pageview('/url');
-        expect(spy.called).to.be(true);
+        expect(spy.calledWith(['TrackView', '/url'])).to.be(true);
 
         spy.restore();
     });
