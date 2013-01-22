@@ -56,15 +56,13 @@
         expect(spy.called).to.be(false);
 
         spy.reset();
-        // Vero alters passed in array, use with args to track count
-        spy.withArgs(['user', {
+        analytics.identify(userId, traits);
+
+        expect(spy.calledWith(['user', {
             id    : userId,
             email : traits.email,
             name  : traits.name
-        }]);
-
-        analytics.identify(userId, traits);
-        expect(spy.calledOnce).to.be(true);
+        }])).to.be(true);
 
         spy.restore();
     });
@@ -77,9 +75,7 @@
         var spy = sinon.spy(window._veroq, 'push');
         analytics.track('event', properties);
 
-        spy.withArgs(['track', 'event', properties]);
-
-        expect(spy.called).to.be(true);
+        expect(spy.calledWith(['track', 'event', properties])).to.be(true);
 
         spy.restore();
     });

@@ -59,6 +59,7 @@
         // passed as the globalProperties, when invoked, returns sane values.
         var customChecker = function (expectedUserId, expectedTraits) {
             expect(spy.calledWithMatch(function (value) {
+                console.log(spy.getCall(0).args);
                 if (typeof value === "function") {
                     result = value("some event name");
                     expect(result.user.userId).to.equal(expectedUserId);
