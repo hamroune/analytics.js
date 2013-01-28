@@ -32,7 +32,8 @@
     "quantcast",
     "snapengage",
     "usercycle",
-    "vero"
+    "vero",
+    "woopra"
   ],
   "url": "https://github.com/segmentio/analytics.js",
   "repository": {
